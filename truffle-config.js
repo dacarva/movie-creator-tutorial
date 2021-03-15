@@ -2,7 +2,10 @@ require('babel-register')
 require('babel-polyfill')
 require('dotenv').config()
 
-const HDWalletProvider = require('truffle-hdwallet-provider-privkey')
+const HDWalletProvider = require('@truffle/hdwallet-provider')
+const privateKey = process.env.PRIVATE_KEY_ETH
+const endpointUrl = process.env.INFURA_ENDPOINT
+
 /**
  * Use this file to configure your truffle project. It's seeded with some
  * common settings for different networks and features like migrations,
@@ -53,6 +56,19 @@ module.exports = {
       host: '127.0.0.1', // Localhost (default: none)
       port: 7545, // Standard Ethereum port (default: none)
       network_id: '*', // Any network (default: none)
+    },
+    rinkeby: {
+      provider() {
+        return new HDWalletProvider(
+          // private keys array
+          [privateKey],
+          // url to ethereum node
+          endpointUrl
+        )
+      },
+      gas: 5000000,
+      gasPrice: 25000000000,
+      network_id: 4,
     },
     // Another network with more advanced options...
     // advanced: {
